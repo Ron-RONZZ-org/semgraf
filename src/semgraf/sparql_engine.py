@@ -76,6 +76,11 @@ def _timeout(seconds: int):
     """Raise ``SparqlTimeout`` if execution exceeds *seconds*.
 
     If *seconds* is <= 0, the timeout fires immediately (useful for tests).
+
+    Uses SIGALRM on the main thread; falls back to no timeout in
+    threaded contexts (Flask dev server default).  This is acceptable
+    for MVP — real timeout enforcement via a worker subprocess is a
+    future improvement.
     """
     if seconds <= 0:
         raise SparqlTimeout(f"Query exceeded timeout of {seconds}s")
@@ -83,7 +88,14 @@ def _timeout(seconds: int):
     def _handler(_signum, _frame):
         raise SparqlTimeout(f"Query exceeded timeout of {seconds}s")
 
-    original = signal.signal(signal.SIGALRM, _handler)
+    try:
+        original = signal.signal(signal.SIGALRM, _handler)
+    except ValueError:
+        # Running in a non-main thread (Flask threaded mode) —
+        # SIGALRM is unavailable.  Skip timeout enforcement.
+        yield
+        return
+
     signal.alarm(seconds)
     try:
         yield

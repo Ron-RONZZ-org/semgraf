@@ -40,7 +40,9 @@ def create_app(graph: Graph, prefix_map: PrefixMap | None = None) -> Flask:
     Returns:
         A configured Flask app.
     """
-    app = Flask(__name__, static_folder=None)
+    # Enable Flask's static file serving at the root.
+    # Explicit routes (e.g. ``/``) take precedence over static files.
+    app = Flask(__name__, static_folder=str(STATIC_DIR), static_url_path="")
 
     if prefix_map is None:
         prefix_map = PrefixMap(graph)
