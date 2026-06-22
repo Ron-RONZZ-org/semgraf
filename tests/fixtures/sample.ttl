@@ -1,0 +1,38 @@
+@prefix rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl:  <http://www.w3.org/2002/07/owl#> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix :     <http://example.org/> .
+
+:Person  a  owl:Class ;
+    rdfs:label "Person"@en , "Persono"@eo ;
+    skos:prefLabel "Person"@en .
+
+:Animal  a  owl:Class ;
+    rdfs:label "Animal"@en .
+
+:Human  rdfs:subClassOf :Animal , :Person ;
+    rdfs:label "Human"@en .
+
+:Alice  a :Human , :Person ;
+    rdfs:label "Alice"@en ;
+    foaf:age 30 .
+
+:Bob  a :Human ;
+    rdfs:label "Bob"@en ;
+    foaf:age 25 ;
+    foaf:knows :Alice .
+
+:Charlie  a :Human ;
+    rdfs:label "Charlie"@en ;
+    foaf:age 35 ;
+    foaf:knows :Alice , :Bob .
+
+:unknown_relation  :someProperty "just a literal" .
+
+:Dog  a owl:Class ;
+    rdfs:label "Dog"@en .
+
+:Cat  a owl:Class ;
+    rdfs:label "Cat"@en .

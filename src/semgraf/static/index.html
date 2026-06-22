@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>semgraf</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.9/standalone/umd/vis-network.min.js"></script>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Top toolbar -->
+  <header id="toolbar">
+    <div id="search-container">
+      <input type="text" id="search-input" placeholder="Search nodes…" autocomplete="off">
+      <div id="search-dropdown" class="dropdown hidden"></div>
+    </div>
+    <button id="sparql-toggle" class="toolbar-btn">SPARQL</button>
+    <span id="stats-display" class="stats"></span>
+  </header>
+
+  <!-- SPARQL panel (collapsible) -->
+  <div id="sparql-panel" class="hidden">
+    <textarea id="sparql-input" rows="4" placeholder="SELECT ?s ?p ?o WHERE { ?s ?p ?o } LIMIT 100"></textarea>
+    <div class="sparql-actions">
+      <button id="sparql-run" class="btn">Run</button>
+      <button id="sparql-graph" class="btn">Load as Graph</button>
+    </div>
+    <div id="sparql-results"></div>
+  </div>
+
+  <!-- Main area -->
+  <main id="main">
+    <div id="graph-container">
+      <div id="graph-empty" class="hidden">Graph is empty — load a Turtle file with triples.</div>
+    </div>
+    <aside id="entity-panel" class="hidden">
+      <header id="entity-header">
+        <h3 id="entity-title"></h3>
+        <button id="entity-close" class="btn-close">&times;</button>
+      </header>
+      <div id="entity-content"></div>
+    </aside>
+  </main>
+
+  <!-- Status bar -->
+  <footer id="status-bar">
+    <span id="status-text">Loading…</span>
+    <span id="filter-display"></span>
+  </footer>
+
+  <div id="toast-container"></div>
+  <div id="loading-spinner" class="hidden">Loading…</div>
+
+  <script src="app.js"></script>
+</body>
+</html>
